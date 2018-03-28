@@ -1,0 +1,93 @@
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+
+    <div class="item" *ngIf="itemsList">
+      <table class="table">
+        <thead id="myHeader" class="h">
+          <tr class="h">
+            <th class="h">itemname</th>
+            <th class="h">Description</th>          
+            <th class="h">Status</th>
+            <th class="h">Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="item" (dblclick)="editTodo(item)" *ngFor="let item of itemsList">
+
+            <ng-container *ngIf="!editItems.includes(item); else editTD">
+              <td>{{item.itemname}}</td>
+              <td>{{item.description}}</td>
+            
+              <td>{{item.item_Status}}</td>
+            </ng-container>
+
+            <ng-template #editTD>
+              <td>
+                <input type="text" name="itemname" id="itemname" (keypress)="submitTodo($event, item)" [(ngModel)]="item.itemname" placeholder="itemname"
+                  class="form-control">
+              </td>
+              <td>
+                <input type="text" name="description" id="description" (keypress)="submitTodo($event, item)" [(ngModel)]="item.description"
+                  placeholder="Description" class="form-control">
+              </td>
+              <td>{{item.date | date}}</td>
+              <td>
+                <input type="text" name="status" id="status" (keypress)="submitItem($event, item)" [(ngModel)]="item.status" placeholder="Status"
+                  class="form-control">
+              </td>
+            </ng-template>
+
+            <td class="o">
+              <button class="btn btn-success" (click)="doneItem(item)">
+                <i class="fa fa-check"></i>
+              </button>
+              <button class="btn btn-primary" (click)="editItem(item)">
+                <i class="fa fa-pencil"></i>
+              </button>
+              <button class="btn btn-danger" (click)="deleteItem(item)">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <form>
+      <div class="form-row">
+
+        <div class="col-md-5">
+          <input type="text" name="itemname" id="itemname" [(ngModel)]="newItem.itemname" placeholder="itemname" class="form-control">
+        </div>
+        <div class="col-md-5">
+          <input name="description" id="description" [(ngModel)]="newItem.description" placeholder="Description" class="form-control"
+            id="description">
+        </div>
+ 
+        <div>
+          <select [(ngModel)]="item_Status" name='item_Status' id="item_Status" ng-repeat="option for option in options">
+          </select>
+        </div>
+
+        <div class="col-md-5" class="col-md-5">
+          <select id="item_Status" name="item_Status" (change)="onSelect($event.target.value)" [(ngModel)]="newItem.item_Status">
+            class="form-control"
+            <option *ngFor="let country of countries" value={{country.name}}>{{country.name}}</option>
+          </select>
+          <br/>
+          <br/>
+        </div>
+
+        <div class="col-md-2">
+          <button type="submit" class="btn btn-primary" (click)="create()">Add</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-2">
+
+  </div>
+</div>
